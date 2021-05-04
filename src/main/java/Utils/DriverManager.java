@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,25 +25,22 @@ public class DriverManager {
     private  DriverManager() {
 
     	// Chrome Driver 
-		    	ChromeOptions chromeOptions;
-		    	chromeOptions = new ChromeOptions();
-				chromeOptions.setExperimentalOption("useAutomationExtension", false);
-				chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-				chromeOptions.addArguments("disable-infobars");
-				chromeOptions.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-				String path ="C:\\RaviJAVAProjects\\DRIVERCollection\\chromedriver85.0.4183.87.exe";
-				System.out.println("Chrome Driver Path : "+path);
-				Log.info("Chrome Driver Path : "+path);
-				System.setProperty("webdriver.chrome.driver", path);
-				driver = new ChromeDriver(chromeOptions);
-				driver.manage().deleteAllCookies();
+	    
+	     	WebDriverManager.chromedriver().setup();
+  		WebDriver driver = new ChromeDriver();
+	    	driver.manage().deleteAllCookies();
 				driver.manage().window().maximize();
 			    waitDriver = new WebDriverWait(driver, TIMEOUT);
 		        driver.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
 		        driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
 		        String window=driver.getWindowHandle();
 		        Log.info("Current Window -> "+window);
-		        Log.info("Browser opened! ");
+		        Log.info("Browser opened! " + driver.getTitle());
+	    		System.out.println("Page Title :" + driver.getTitle());
+	    
+	    
+	    
+				
     }
 	
     public static void openApplication(String url) {
